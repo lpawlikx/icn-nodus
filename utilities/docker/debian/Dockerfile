@@ -2,7 +2,9 @@ FROM ubuntu:18.04 as base
 
 USER root
 
-RUN apt-get update && apt-get install -y iproute2 curl software-properties-common setpriv dpkg-dev netcat jq wget
+COPY ovn4nfv-k8s.sh /usr/local/bin/ovn4nfv-k8s
+
+RUN apt-get update && apt-get upgrade -y && apt-get install -y iproute2 curl software-properties-common setpriv dpkg-dev netcat jq wget && apt-get clean
 
 RUN mkdir -p /opt/ovn4nfv-k8s-plugin/dist/ubuntu/deb
 RUN bash -xc "\
@@ -17,7 +19,5 @@ RUN apt-get update
 RUN apt-get install -y openvswitch-switch=2.12.0-1 openvswitch-common=2.12.0-1 ovn-central=2.12.0-1 ovn-common=2.12.0-1 ovn-host=2.12.0-1
 RUN mkdir -p /var/run/openvswitch && \
     mkdir -p /var/run/ovn
-
-COPY ovn4nfv-k8s.sh /usr/local/bin/ovn4nfv-k8s
 
 ENTRYPOINT ["ovn4nfv-k8s"]
