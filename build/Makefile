@@ -1,5 +1,5 @@
-IMAGE_REGISTRY ?= ger-is-registry.caas.intel.com/cno/
-BUILD_VERSION ?= v2.2.1
+IMAGE_REGISTRY ?= integratedcloudnative/
+BUILD_VERSION ?= master
 CNI_VERSION ?= v0.8.5
 
 export NODUS_IMAGE_NAME ?= $(IMAGE_REGISTRY)ovn4nfv-k8s-plugin:$(BUILD_VERSION)
@@ -14,7 +14,7 @@ endif
 DOCKERARGS += --build-arg CNI_VERSION=$(CNI_VERSION)
 
 docker-build:
-	docker build -t $(NODUS_IMAGE_NAME) $(DOCKERARGS) --network host -f ./Dockerfile.ubuntu ../
+	docker build -t $(NODUS_IMAGE_NAME) $(DOCKERARGS) --network host --no-cache -f ./Dockerfile.ubuntu ../
 
 docker-push:
 	docker push $(NODUS_IMAGE_NAME)

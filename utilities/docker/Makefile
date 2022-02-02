@@ -1,7 +1,7 @@
-IMAGE_REGISTRY ?= ger-is-registry.caas.intel.com/cno/
-BUILD_VERSION ?= v2.2.1
+IMAGE_REGISTRY ?= integratedcloudnative/
+BUILD_VERSION ?= master
 
-export NODUS_IMAGE_NAME ?= $(IMAGE_REGISTRY)ovn4nfv-k8s-plugin:$(BUILD_VERSION)
+export OVN_IMAGE_NAME ?= $(IMAGE_REGISTRY)ovn-images:$(BUILD_VERSION)
 
 DOCKERARGS?=
 ifdef HTTP_PROXY
@@ -12,9 +12,9 @@ ifdef HTTPS_PROXY
 endif
 
 docker-build:
-	docker build -t $(NODUS_IMAGE_NAME) $(DOCKERARGS) --network host -f ./debian/Dockerfile .
+	docker build -t $(OVN_IMAGE_NAME) $(DOCKERARGS) --no-cache --network host -f ./debian/Dockerfile .
 
 docker-push:
-	docker push $(NODUS_IMAGE_NAME)
+	docker push $(OVN_IMAGE_NAME)
 
 
